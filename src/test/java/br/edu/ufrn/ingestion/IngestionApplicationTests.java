@@ -1,10 +1,10 @@
-package br.edu.ufrn.order;
+package br.edu.ufrn.ingestion;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderApplicationTests {
+class IngestionApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,4 +1,4 @@
-package br.edu.ufrn.order.controller;
+package br.edu.ufrn.ingestion.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,34 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-public class OrderAPIController {
+public class IngestionAPIController {
     @GetMapping("/hello")
     public String hello(@RequestParam String name) {
         return new String("Hello, " + name + "!");
-    }
-    
-    @GetMapping("/{id}")
-    public void getOrder(@PathVariable("id") Long id) {
-
-    }
-
-    @GetMapping
-    public void getOrders() {
-
-    }
-
-    @PostMapping
-    public void createOrder(@RequestBody Object order) {
-
-    }
-
-    @PutMapping("/{id}")
-    public void updateOrder(@PathVariable("id") Long id, @RequestBody Object order) {
-
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable("id") Long id) {
-
     }
 }
