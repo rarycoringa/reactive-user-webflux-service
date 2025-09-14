@@ -20,7 +20,7 @@ import br.edu.ufrn.ingestion.record.request.OxygenSaturationRequest;
 import br.edu.ufrn.ingestion.record.request.RespirationRateRequest;
 
 @RestController
-public class IngestionAPIController {
+public class IngestionRestAPIController {
     @PostMapping("/glucose")
     public ResponseEntity<BloodGlucose> glucose(@RequestBody BloodGlucoseRequest request) {
         return ResponseEntity
