@@ -17,6 +17,13 @@ spring:
 #     config:
 #         import: "optional:configserver:"
 
+    cassandra:
+        contact-points: localhost
+        port: 9042
+        local-datacenter: datacenter1
+        keyspace-name: ingestion_mvc
+        schema-action: create_if_not_exists
+
 # eureka:
 #     client:
 #         fetch-registry: true
