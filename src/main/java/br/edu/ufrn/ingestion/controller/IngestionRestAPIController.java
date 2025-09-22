@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufrn.ingestion.record.BloodGlucose;
@@ -22,6 +23,13 @@ import br.edu.ufrn.ingestion.record.request.BodyTemperatureRequest;
 import br.edu.ufrn.ingestion.record.request.HeartRateRequest;
 import br.edu.ufrn.ingestion.record.request.OxygenSaturationRequest;
 import br.edu.ufrn.ingestion.record.request.RespirationRateRequest;
+import br.edu.ufrn.ingestion.record.request.RetrieveRequest;
+import br.edu.ufrn.ingestion.record.response.BloodGlucoseResponse;
+import br.edu.ufrn.ingestion.record.response.BloodPressureResponse;
+import br.edu.ufrn.ingestion.record.response.BodyTemperatureResponse;
+import br.edu.ufrn.ingestion.record.response.HeartRateResponse;
+import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
+import br.edu.ufrn.ingestion.record.response.RespirationRateResponse;
 import br.edu.ufrn.ingestion.service.IngestionService;
 
 @RestController
@@ -31,86 +39,86 @@ public class IngestionRestAPIController {
     private IngestionService ingestionService;
 
     @GetMapping("/glucose")
-    public ResponseEntity<List<BloodGlucose>> retrieveBloodGlucose(@RequestBody BloodGlucoseRequest request) {
+    public ResponseEntity<List<BloodGlucoseResponse>> retrieveBloodGlucose(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/glucose")
-    public ResponseEntity<BloodGlucose> createBloodGlucose(@RequestBody BloodGlucoseRequest request) {
+    public ResponseEntity<BloodGlucoseResponse> createBloodGlucose(@RequestBody BloodGlucoseRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.bloodGlucose());
+            .body(null);
     }
 
     @GetMapping("/pressure")
-    public ResponseEntity<List<BloodPressure>> retrieveBloodPressure(@RequestBody BloodPressureRequest request) {
+    public ResponseEntity<List<BloodPressureResponse>> retrieveBloodPressure(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/pressure")
-    public ResponseEntity<BloodPressure> createBloodPressure(@RequestBody BloodPressureRequest request) {
+    public ResponseEntity<BloodPressureResponse> createBloodPressure(@RequestBody BloodPressureRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.bloodPressure());
+            .body(null);
     }
 
     @GetMapping("/temperature")
-    public ResponseEntity<List<BodyTemperature>> retrieveBodyTemperature(@RequestBody BodyTemperatureRequest request) {
+    public ResponseEntity<List<BodyTemperatureResponse>> retrieveBodyTemperature(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/temperature")
-    public ResponseEntity<BodyTemperature> createBodyTemperature(@RequestBody BodyTemperatureRequest request) {
+    public ResponseEntity<BodyTemperatureResponse> createBodyTemperature(@RequestBody BodyTemperatureRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.bodyTemperature());
+            .body(null);
     }
 
     @GetMapping("/heart")
-    public ResponseEntity<List<HeartRate>> retrieveateHeartRate(@RequestBody HeartRateRequest request) {
+    public ResponseEntity<List<HeartRateResponse>> retrieveHeartRate(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/heart")
-    public ResponseEntity<HeartRate> createHeartRate(@RequestBody HeartRateRequest request) {
+    public ResponseEntity<HeartRateResponse> createHeartRate(@RequestBody HeartRateRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.heartRate());
+            .body(null);
     }
 
     @GetMapping("/saturation")
-    public ResponseEntity<List<OxygenSaturation>> retrieveOxygenSaturation(@RequestBody OxygenSaturationRequest request) {
+    public ResponseEntity<List<OxygenSaturationResponse>> retrieveOxygenSaturation(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/saturation")
-    public ResponseEntity<OxygenSaturation> createOxygenSaturation(@RequestBody OxygenSaturationRequest request) {
+    public ResponseEntity<OxygenSaturationResponse> createOxygenSaturation(@RequestBody OxygenSaturationRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.oxygenSaturation());
+            .body(null);
     }
 
     @GetMapping("/respiration")
-    public ResponseEntity<List<RespirationRate>> retrieveRespirationRate(@RequestBody RespirationRateRequest request) {
+    public ResponseEntity<List<RespirationRateResponse>> retrieveRespirationRate(RetrieveRequest request) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null);
     }
 
     @PostMapping("/respiration")
-    public ResponseEntity<RespirationRate> createRespirationRate(@RequestBody RespirationRateRequest request) {
+    public ResponseEntity<RespirationRateResponse> createRespirationRate(@RequestBody RespirationRateRequest request) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(request.respirationRate());
+            .body(null);
     }
 }
