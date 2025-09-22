@@ -7,12 +7,11 @@ import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ufrn.ingestion.model.HeartRateModel;
-import br.edu.ufrn.ingestion.model.MetricPrimaryKey;
 
 @Repository
-public interface HeartRateRepository extends CassandraRepository<HeartRateModel, MetricPrimaryKey> {
+public interface HeartRateRepository extends CassandraRepository<HeartRateModel, HeartRateModel> {
     
-    List<HeartRateModel> findByKeyPatientIdAndKeyRegisteredAtBetween(
+    List<HeartRateModel> findByPatientIdAndRegisteredAtBetween(
         int patientId,
         Instant start,
         Instant end

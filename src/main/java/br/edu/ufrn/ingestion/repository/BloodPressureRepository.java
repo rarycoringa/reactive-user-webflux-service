@@ -7,12 +7,11 @@ import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ufrn.ingestion.model.BloodPressureModel;
-import br.edu.ufrn.ingestion.model.MetricPrimaryKey;
 
 @Repository
-public interface BloodPressureRepository extends CassandraRepository<BloodPressureModel, MetricPrimaryKey> {
+public interface BloodPressureRepository extends CassandraRepository<BloodPressureModel, BloodPressureModel> {
     
-    List<BloodPressureModel> findByKeyPatientIdAndKeyRegisteredAtBetween(
+    List<BloodPressureModel> findByPatientIdAndRegisteredAtBetween(
         int patientId,
         Instant start,
         Instant end

@@ -1,14 +1,12 @@
 package br.edu.ufrn.ingestion.model;
 
+import java.time.Instant;
+
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 @Table("blood_pressure")
-public class BloodPressureModel {
-    
-    @PrimaryKey
-    private MetricPrimaryKey key;
+public class BloodPressureModel extends BaseMetricModel {
 
     @Column("systolic_value")
     private int systolicValue;
@@ -16,12 +14,12 @@ public class BloodPressureModel {
     @Column("diastolic_value")
     private int diastolicValue;
 
-    public MetricPrimaryKey getKey() {
-        return key;
-    }
+    public BloodPressureModel() {}
 
-    public void setKey(MetricPrimaryKey key) {
-        this.key = key;
+    public BloodPressureModel(int patientId, Instant generatedAt, int systolicValue, int diastolicValue) {
+        super(patientId, generatedAt);
+        this.systolicValue = systolicValue;
+        this.diastolicValue = diastolicValue;
     }
 
     public int getSystolicValue() {

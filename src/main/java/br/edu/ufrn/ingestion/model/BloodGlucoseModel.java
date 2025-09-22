@@ -1,24 +1,21 @@
 package br.edu.ufrn.ingestion.model;
 
+import java.time.Instant;
+
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 @Table("blood_glucose")
-public class BloodGlucoseModel {
-
-    @PrimaryKey
-    private MetricPrimaryKey key;
+public class BloodGlucoseModel extends BaseMetricModel {
 
     @Column("value")
     private int value;
 
-    public MetricPrimaryKey getKey() {
-        return key;
-    }
+    public BloodGlucoseModel() {}
 
-    public void setKey(MetricPrimaryKey key) {
-        this.key = key;
+    public BloodGlucoseModel(int patientId, Instant registeredAt, int value) {
+        super(patientId, registeredAt);
+        this.value = value;
     }
 
     public int getValue() {

@@ -6,13 +6,12 @@ import java.util.List;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
-import br.edu.ufrn.ingestion.model.MetricPrimaryKey;
 import br.edu.ufrn.ingestion.model.RespirationRateModel;
 
 @Repository
-public interface RespirationRateRepository extends CassandraRepository<RespirationRateModel, MetricPrimaryKey> {
+public interface RespirationRateRepository extends CassandraRepository<RespirationRateModel, RespirationRateModel> {
  
-    List<RespirationRateModel> findByKeyPatientIdAndKeyRegisteredAtBetween(
+    List<RespirationRateModel> findByPatientIdAndRegisteredAtBetween(
         int patientId,
         Instant start,
         Instant end

@@ -1,24 +1,21 @@
 package br.edu.ufrn.ingestion.model;
 
+import java.time.Instant;
+
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 @Table("heart_rate")
-public class HeartRateModel {
-    
-    @PrimaryKey
-    private MetricPrimaryKey key;
+public class HeartRateModel extends BaseMetricModel {
 
     @Column("value")
     private int value;
 
-    public MetricPrimaryKey getKey() {
-        return key;
-    }
+    public HeartRateModel() {}
 
-    public void setKey(MetricPrimaryKey key) {
-        this.key = key;
+    public HeartRateModel(int patientId, Instant registeredAt, int value) {
+        super(patientId, registeredAt);
+        this.value = value;
     }
 
     public int getValue() {
