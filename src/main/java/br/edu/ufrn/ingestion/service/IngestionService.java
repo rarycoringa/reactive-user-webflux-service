@@ -1,6 +1,8 @@
 package br.edu.ufrn.ingestion.service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,6 @@ import br.edu.ufrn.ingestion.record.OxygenSaturation;
 import br.edu.ufrn.ingestion.record.request.BloodPressureRequest;
 import br.edu.ufrn.ingestion.record.request.HeartRateRequest;
 import br.edu.ufrn.ingestion.record.request.OxygenSaturationRequest;
-import br.edu.ufrn.ingestion.record.request.RetrieveRequest;
 import br.edu.ufrn.ingestion.record.response.BloodPressureResponse;
 import br.edu.ufrn.ingestion.record.response.HeartRateResponse;
 import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
@@ -36,9 +37,12 @@ public class IngestionService {
     @Autowired
     private OxygenSaturationRepository oxygenSaturationRepository;
 
-    public List<BloodPressureResponse> retrieveBloodPressure(RetrieveRequest request) {
+    public List<BloodPressureResponse> retrieveBloodPressure(int patientId, LocalDateTime start, LocalDateTime end) {
+        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
+        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
+        
         List<BloodPressureModel> bloodPressureModelList = bloodPressureRepository.findByPatientIdAndRegisteredAtBetween(
-            request.patientId(), request.start(), request.end()
+            patientId, startAsInstant, endAsInstant
         );
         
         List<BloodPressureResponse> bloodPressureList = bloodPressureModelList.stream()
@@ -66,9 +70,12 @@ public class IngestionService {
         return bloodPressureResponse;
     }
 
-    public List<HeartRateResponse> retrieveHeartRate(RetrieveRequest request) {
+    public List<HeartRateResponse> retrieveHeartRate(int patientId, LocalDateTime start, LocalDateTime end) {
+        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
+        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
+        
         List<HeartRateModel> heartRateModelList = heartRateRepository.findByPatientIdAndRegisteredAtBetween(
-            request.patientId(), request.start(), request.end()
+            patientId, startAsInstant, endAsInstant
         );
         
         List<HeartRateResponse> heartRateList = heartRateModelList.stream()
@@ -96,9 +103,12 @@ public class IngestionService {
         return heartRateResponse;
     }
 
-    public List<OxygenSaturationResponse> retrieveOxygenSaturation(RetrieveRequest request) {
+    public List<OxygenSaturationResponse> retrieveOxygenSaturation(int patientId, LocalDateTime start, LocalDateTime end) {
+        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
+        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
+        
         List<OxygenSaturationModel> oxygenSaturationModelList = oxygenSaturationRepository.findByPatientIdAndRegisteredAtBetween(
-            request.patientId(), request.start(), request.end()
+            patientId, startAsInstant, endAsInstant
         );
         
         List<OxygenSaturationResponse> oxygenSaturationList = oxygenSaturationModelList.stream()

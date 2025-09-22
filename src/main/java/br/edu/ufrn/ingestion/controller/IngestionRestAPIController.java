@@ -1,5 +1,6 @@
 package br.edu.ufrn.ingestion.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufrn.ingestion.record.request.BloodPressureRequest;
 import br.edu.ufrn.ingestion.record.request.HeartRateRequest;
 import br.edu.ufrn.ingestion.record.request.OxygenSaturationRequest;
-import br.edu.ufrn.ingestion.record.request.RetrieveRequest;
 import br.edu.ufrn.ingestion.record.response.BloodPressureResponse;
 import br.edu.ufrn.ingestion.record.response.HeartRateResponse;
 import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
@@ -26,9 +27,15 @@ public class IngestionRestAPIController {
     private IngestionService ingestionService;
 
     @GetMapping("/pressure")
-    public ResponseEntity<List<BloodPressureResponse>> retrieveBloodPressure(RetrieveRequest request) {
+    public ResponseEntity<List<BloodPressureResponse>> retrieveBloodPressure(
+        @RequestParam("patient_id") int patientId,
+        @RequestParam LocalDateTime start,
+        @RequestParam LocalDateTime end
+    ) {
 
-        List<BloodPressureResponse> response = ingestionService.retrieveBloodPressure(request);
+        List<BloodPressureResponse> response = ingestionService.retrieveBloodPressure(
+            patientId, start, end
+        );
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -36,7 +43,9 @@ public class IngestionRestAPIController {
     }
 
     @PostMapping("/pressure")
-    public ResponseEntity<BloodPressureResponse> createBloodPressure(@RequestBody BloodPressureRequest request) {
+    public ResponseEntity<BloodPressureResponse> createBloodPressure(
+        @RequestBody BloodPressureRequest request
+    ) {
 
         BloodPressureResponse response = ingestionService.createBloodPressure(request);
 
@@ -46,9 +55,15 @@ public class IngestionRestAPIController {
     }
 
     @GetMapping("/heart")
-    public ResponseEntity<List<HeartRateResponse>> retrieveHeartRate(RetrieveRequest request) {
+    public ResponseEntity<List<HeartRateResponse>> retrieveHeartRate(
+        @RequestParam("patient_id") int patientId,
+        @RequestParam LocalDateTime start,
+        @RequestParam LocalDateTime end
+    ) {
 
-        List<HeartRateResponse> response = ingestionService.retrieveHeartRate(request);
+        List<HeartRateResponse> response = ingestionService.retrieveHeartRate(
+            patientId, start, end
+        );
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -56,7 +71,9 @@ public class IngestionRestAPIController {
     }
 
     @PostMapping("/heart")
-    public ResponseEntity<HeartRateResponse> createHeartRate(@RequestBody HeartRateRequest request) {
+    public ResponseEntity<HeartRateResponse> createHeartRate(
+        @RequestBody HeartRateRequest request
+    ) {
 
         HeartRateResponse response = ingestionService.createHeartRate(request);
 
@@ -66,9 +83,15 @@ public class IngestionRestAPIController {
     }
 
     @GetMapping("/saturation")
-    public ResponseEntity<List<OxygenSaturationResponse>> retrieveOxygenSaturation(RetrieveRequest request) {
+    public ResponseEntity<List<OxygenSaturationResponse>> retrieveOxygenSaturation(
+        @RequestParam("patient_id") int patientId,
+        @RequestParam LocalDateTime start,
+        @RequestParam LocalDateTime end
+    ) {
 
-        List<OxygenSaturationResponse> response = ingestionService.retrieveOxygenSaturation(request);
+        List<OxygenSaturationResponse> response = ingestionService.retrieveOxygenSaturation(
+            patientId, start, end
+        );
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -76,7 +99,9 @@ public class IngestionRestAPIController {
     }
 
     @PostMapping("/saturation")
-    public ResponseEntity<OxygenSaturationResponse> createOxygenSaturation(@RequestBody OxygenSaturationRequest request) {
+    public ResponseEntity<OxygenSaturationResponse> createOxygenSaturation(
+        @RequestBody OxygenSaturationRequest request
+    ) {
 
         OxygenSaturationResponse response = ingestionService.createOxygenSaturation(request);
 
