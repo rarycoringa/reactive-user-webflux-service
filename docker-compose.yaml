@@ -1,0 +1,14 @@
+services:
+  ingestion-webflux:
+    build: .
+    container_name: ingestion-webflux
+    environment:
+      - SERVER_PORT=8181
+    ports:
+      - "8181:8181"
+    networks:
+      - reactive-ms-network
+
+networks:
+  reactive-ms-network:
+    external: true
