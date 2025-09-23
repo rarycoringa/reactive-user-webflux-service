@@ -1,11 +1,8 @@
 package br.edu.ufrn.ingestion.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +16,8 @@ import br.edu.ufrn.ingestion.record.response.BloodPressureResponse;
 import br.edu.ufrn.ingestion.record.response.HeartRateResponse;
 import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
 import br.edu.ufrn.ingestion.service.IngestionService;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class IngestionRestAPIController {
@@ -27,87 +26,51 @@ public class IngestionRestAPIController {
     private IngestionService ingestionService;
 
     @GetMapping("/pressure")
-    public ResponseEntity<List<BloodPressureResponse>> retrieveBloodPressure(
+    public Flux<BloodPressureResponse> retrieveBloodPressure(
         @RequestParam("patient_id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-
-        List<BloodPressureResponse> response = ingestionService.retrieveBloodPressure(
-            patientId, start, end
-        );
-
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(response);
+        return ingestionService.retrieveBloodPressure(patientId, start, end);
     }
 
     @PostMapping("/pressure")
-    public ResponseEntity<BloodPressureResponse> createBloodPressure(
+    public Mono<BloodPressureResponse> createBloodPressure(
         @RequestBody BloodPressureRequest request
     ) {
-
-        BloodPressureResponse response = ingestionService.createBloodPressure(request);
-
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(response);
+        return ingestionService.createBloodPressure(request);
     }
 
     @GetMapping("/heart")
-    public ResponseEntity<List<HeartRateResponse>> retrieveHeartRate(
+    public Flux<HeartRateResponse> retrieveHeartRate(
         @RequestParam("patient_id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-
-        List<HeartRateResponse> response = ingestionService.retrieveHeartRate(
-            patientId, start, end
-        );
-
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(response);
+        return ingestionService.retrieveHeartRate(patientId, start, end);
     }
 
     @PostMapping("/heart")
-    public ResponseEntity<HeartRateResponse> createHeartRate(
+    public Mono<HeartRateResponse> createHeartRate(
         @RequestBody HeartRateRequest request
     ) {
-
-        HeartRateResponse response = ingestionService.createHeartRate(request);
-
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(response);
+        return ingestionService.createHeartRate(request);
     }
 
     @GetMapping("/saturation")
-    public ResponseEntity<List<OxygenSaturationResponse>> retrieveOxygenSaturation(
+    public Flux<OxygenSaturationResponse> retrieveOxygenSaturation(
         @RequestParam("patient_id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-
-        List<OxygenSaturationResponse> response = ingestionService.retrieveOxygenSaturation(
-            patientId, start, end
-        );
-
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(response);
+        return ingestionService.retrieveOxygenSaturation(patientId, start, end);
     }
 
     @PostMapping("/saturation")
-    public ResponseEntity<OxygenSaturationResponse> createOxygenSaturation(
+    public Mono<OxygenSaturationResponse> createOxygenSaturation(
         @RequestBody OxygenSaturationRequest request
     ) {
-
-        OxygenSaturationResponse response = ingestionService.createOxygenSaturation(request);
-
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(response);
+        return ingestionService.createOxygenSaturation(request);
     }
 
 }

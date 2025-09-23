@@ -3,8 +3,6 @@ package br.edu.ufrn.ingestion.service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,8 @@ import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
 import br.edu.ufrn.ingestion.repository.BloodPressureRepository;
 import br.edu.ufrn.ingestion.repository.HeartRateRepository;
 import br.edu.ufrn.ingestion.repository.OxygenSaturationRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class IngestionService {
@@ -37,103 +37,110 @@ public class IngestionService {
     @Autowired
     private OxygenSaturationRepository oxygenSaturationRepository;
 
-    public List<BloodPressureResponse> retrieveBloodPressure(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<BloodPressureResponse> retrieveBloodPressure(int patientId, LocalDateTime start, LocalDateTime end) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
-        List<BloodPressureModel> bloodPressureModelList = bloodPressureRepository.findByPatientIdAndRegisteredAtBetween(
-            patientId, startAsInstant, endAsInstant
-        );
-        
-        List<BloodPressureResponse> bloodPressureList = bloodPressureModelList.stream()
-            .map(model -> new BloodPressureResponse(
-                model.getPatientId(),
-                model.getRegisteredAt(),
-                new BloodPressure(model.getSystolicValue(), model.getDiastolicValue())
-            ))
-            .collect(Collectors.toList());
-        
-        return bloodPressureList;
+        return bloodPressureRepository
+            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .map(
+                model -> new BloodPressureResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new BloodPressure(
+                        model.getSystolicValue(),
+                        model.getDiastolicValue()
+                    )
+                )
+            );
     }
 
-    public BloodPressureResponse createBloodPressure(BloodPressureRequest request) {
+    public Mono<BloodPressureResponse> createBloodPressure(BloodPressureRequest request) {
         BloodPressureModel bloodPressureModel = new BloodPressureModel(
-            request.patientId(), Instant.now(), request.bloodPressure().systolicValue(), request.bloodPressure().diastolicValue()
+            request.patientId(),
+            Instant.now(),
+            request.bloodPressure().systolicValue(),
+            request.bloodPressure().diastolicValue()
         );
 
-        bloodPressureModel = bloodPressureRepository.save(bloodPressureModel);
-
-        BloodPressureResponse bloodPressureResponse = new BloodPressureResponse(
-            bloodPressureModel.getPatientId(), bloodPressureModel.getRegisteredAt(), request.bloodPressure()
-        );
-
-        return bloodPressureResponse;
+        return bloodPressureRepository
+            .save(bloodPressureModel)
+            .map(
+                model -> new BloodPressureResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new BloodPressure(
+                        model.getSystolicValue(),
+                        model.getDiastolicValue()
+                    )
+                )
+            );
     }
 
-    public List<HeartRateResponse> retrieveHeartRate(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<HeartRateResponse> retrieveHeartRate(int patientId, LocalDateTime start, LocalDateTime end) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
-        List<HeartRateModel> heartRateModelList = heartRateRepository.findByPatientIdAndRegisteredAtBetween(
-            patientId, startAsInstant, endAsInstant
-        );
-        
-        List<HeartRateResponse> heartRateList = heartRateModelList.stream()
-            .map(model -> new HeartRateResponse(
-                model.getPatientId(),
-                model.getRegisteredAt(),
-                new HeartRate(model.getValue())
-            ))
-            .collect(Collectors.toList());
-        
-        return heartRateList;
+        return heartRateRepository
+            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .map(
+                model -> new HeartRateResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new HeartRate(model.getValue())
+                )
+            );
     }
 
-    public HeartRateResponse createHeartRate(HeartRateRequest request) {
+    public Mono<HeartRateResponse> createHeartRate(HeartRateRequest request) {
         HeartRateModel heartRateModel = new HeartRateModel(
-            request.patientId(), Instant.now(), request.heartRate().value()
+            request.patientId(),
+            Instant.now(),
+            request.heartRate().value()
         );
 
-        heartRateModel = heartRateRepository.save(heartRateModel);
-
-        HeartRateResponse heartRateResponse = new HeartRateResponse(
-            heartRateModel.getPatientId(), heartRateModel.getRegisteredAt(), request.heartRate()
-        );
-
-        return heartRateResponse;
+        return heartRateRepository
+            .save(heartRateModel)
+            .map(
+                model -> new HeartRateResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new HeartRate(model.getValue())
+                )
+            );
     }
 
-    public List<OxygenSaturationResponse> retrieveOxygenSaturation(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<OxygenSaturationResponse> retrieveOxygenSaturation(int patientId, LocalDateTime start, LocalDateTime end) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
-        List<OxygenSaturationModel> oxygenSaturationModelList = oxygenSaturationRepository.findByPatientIdAndRegisteredAtBetween(
-            patientId, startAsInstant, endAsInstant
-        );
-        
-        List<OxygenSaturationResponse> oxygenSaturationList = oxygenSaturationModelList.stream()
-            .map(model -> new OxygenSaturationResponse(
-                model.getPatientId(),
-                model.getRegisteredAt(),
-                new OxygenSaturation(model.getValue())
-            ))
-            .collect(Collectors.toList());
-        
-        return oxygenSaturationList;
+        return oxygenSaturationRepository
+            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .map(
+                model -> new OxygenSaturationResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new OxygenSaturation(model.getValue())
+                )
+            );
     }
 
-    public OxygenSaturationResponse createOxygenSaturation(OxygenSaturationRequest request) {
+    public Mono<OxygenSaturationResponse> createOxygenSaturation(OxygenSaturationRequest request) {
         OxygenSaturationModel oxygenSaturationModel = new OxygenSaturationModel(
-            request.patientId(), Instant.now(), request.oxygenSaturation().value()
+            request.patientId(),
+            Instant.now(),
+            request.oxygenSaturation().value()
         );
 
-        oxygenSaturationModel = oxygenSaturationRepository.save(oxygenSaturationModel);
-
-        OxygenSaturationResponse oxygenSaturationResponse = new OxygenSaturationResponse(
-            oxygenSaturationModel.getPatientId(), oxygenSaturationModel.getRegisteredAt(), request.oxygenSaturation()
-        );
-
-        return oxygenSaturationResponse;
+        return oxygenSaturationRepository
+            .save(oxygenSaturationModel)
+            .map(
+                model -> new OxygenSaturationResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new OxygenSaturation(model.getValue())
+                )
+            );
     }
 
 }
