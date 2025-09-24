@@ -43,12 +43,12 @@ public class IngestionRestAPIController {
     }
 
     @GetMapping(value = "/{id}/pressure/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<BloodPressureResponse> subscribeBloodPressureBetween(
+    public Flux<BloodPressureResponse> subscribeBloodPressurePast(
         @PathVariable("id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-        return ingestionService.subscribeBloodPressureBetween(patientId, start, end);
+        return ingestionService.subscribeBloodPressurePast(patientId, start, end);
     }
 
     @PostMapping("/{id}/heart/publish")
@@ -67,12 +67,12 @@ public class IngestionRestAPIController {
     }
 
     @GetMapping(value = "/{id}/heart/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<HeartRateResponse> subscribeHeartRateBetween(
+    public Flux<HeartRateResponse> subscribeHeartRatePast(
         @PathVariable("id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-        return ingestionService.subscribeHeartRateBetween(patientId, start, end);
+        return ingestionService.subscribeHeartRatePast(patientId, start, end);
     }
 
     @PostMapping("/{id}/saturation/publish")
@@ -91,12 +91,12 @@ public class IngestionRestAPIController {
     }
 
     @GetMapping(value = "/{id}/saturation/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<OxygenSaturationResponse> subscribeOxygenSaturationBetween(
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturationPast(
         @PathVariable("id") int patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
-        return ingestionService.subscribeOxygenSaturationBetween(patientId, start, end);
+        return ingestionService.subscribeOxygenSaturationPast(patientId, start, end);
     }
 
 }

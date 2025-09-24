@@ -59,33 +59,6 @@ public class IngestionService {
     @Autowired
     private OxygenSaturationRepository oxygenSaturationRepository;
 
-    public Flux<BloodPressureResponse> subscribeBloodPressure(int patientId) {
-        return bloodPressureFlux
-            .filter(response -> response.patientId() == patientId);
-    }
-
-    public Flux<BloodPressureResponse> subscribeBloodPressureBetween(
-        int patientId,
-        LocalDateTime start,
-        LocalDateTime end
-    ) {
-        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
-        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
-        
-        return bloodPressureRepository
-            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
-            .map(
-                model -> new BloodPressureResponse(
-                    model.getPatientId(),
-                    model.getRegisteredAt(),
-                    new BloodPressure(
-                        model.getSystolicValue(),
-                        model.getDiastolicValue()
-                    )
-                )
-            );
-    }
-
     public Mono<BloodPressureResponse> publishBloodPressure(
         int patientId,
         BloodPressure bloodPressure
@@ -112,12 +85,12 @@ public class IngestionService {
             .doOnNext(bloodPressureSinkMany::tryEmitNext);
     }
 
-    public Flux<HeartRateResponse> subscribeHeartRate(int patientId) {
-        return heartRateFlux
+    public Flux<BloodPressureResponse> subscribeBloodPressure(int patientId) {
+        return bloodPressureFlux
             .filter(response -> response.patientId() == patientId);
     }
 
-    public Flux<HeartRateResponse> subscribeHeartRateBetween(
+    public Flux<BloodPressureResponse> subscribeBloodPressurePast(
         int patientId,
         LocalDateTime start,
         LocalDateTime end
@@ -125,13 +98,16 @@ public class IngestionService {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
-        return heartRateRepository
+        return bloodPressureRepository
             .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
             .map(
-                model -> new HeartRateResponse(
+                model -> new BloodPressureResponse(
                     model.getPatientId(),
                     model.getRegisteredAt(),
-                    new HeartRate(model.getValue())
+                    new BloodPressure(
+                        model.getSystolicValue(),
+                        model.getDiastolicValue()
+                    )
                 )
             );
     }
@@ -158,12 +134,12 @@ public class IngestionService {
             .doOnNext(heartRateSinkMany::tryEmitNext);
     }
 
-    public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(int patientId) {
-        return oxygenSaturationFlux
+    public Flux<HeartRateResponse> subscribeHeartRate(int patientId) {
+        return heartRateFlux
             .filter(response -> response.patientId() == patientId);
     }
 
-    public Flux<OxygenSaturationResponse> subscribeOxygenSaturationBetween(
+    public Flux<HeartRateResponse> subscribeHeartRatePast(
         int patientId,
         LocalDateTime start,
         LocalDateTime end
@@ -171,13 +147,13 @@ public class IngestionService {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
-        return oxygenSaturationRepository
+        return heartRateRepository
             .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
             .map(
-                model -> new OxygenSaturationResponse(
+                model -> new HeartRateResponse(
                     model.getPatientId(),
                     model.getRegisteredAt(),
-                    new OxygenSaturation(model.getValue())
+                    new HeartRate(model.getValue())
                 )
             );
     }
@@ -202,6 +178,30 @@ public class IngestionService {
                 )
             )
             .doOnNext(oxygenSaturationSinkMany::tryEmitNext);
+    }
+
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(int patientId) {
+        return oxygenSaturationFlux
+            .filter(response -> response.patientId() == patientId);
+    }
+
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturationPast(
+        int patientId,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
+        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
+        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
+        
+        return oxygenSaturationRepository
+            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .map(
+                model -> new OxygenSaturationResponse(
+                    model.getPatientId(),
+                    model.getRegisteredAt(),
+                    new OxygenSaturation(model.getValue())
+                )
+            );
     }
 
 }
