@@ -27,6 +27,14 @@ public class IngestionRestAPIController {
     @Autowired
     private IngestionService ingestionService;
 
+    @PostMapping("/{id}/pressure/publish")
+    public Mono<BloodPressureResponse> publishBloodPressure(
+        @PathVariable("id") int patientId,
+        @RequestBody BloodPressure bloodPressure
+    ) {
+        return ingestionService.publishBloodPressure(patientId, bloodPressure);
+    }
+
     @GetMapping(value = "/{id}/pressure/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<BloodPressureResponse> subscribeBloodPressure(
         @PathVariable("id") int patientId
@@ -43,12 +51,12 @@ public class IngestionRestAPIController {
         return ingestionService.subscribeBloodPressureBetween(patientId, start, end);
     }
 
-    @PostMapping("/{id}/pressure/publish")
-    public Mono<BloodPressureResponse> publishBloodPressure(
+    @PostMapping("/{id}/heart/publish")
+    public Mono<HeartRateResponse> publishHeartRate(
         @PathVariable("id") int patientId,
-        @RequestBody BloodPressure bloodPressure
+        @RequestBody HeartRate heartRate
     ) {
-        return ingestionService.publishBloodPressure(patientId, bloodPressure);
+        return ingestionService.publishHeartRate(patientId, heartRate);
     }
 
     @GetMapping(value = "/{id}/heart/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -67,12 +75,12 @@ public class IngestionRestAPIController {
         return ingestionService.subscribeHeartRateBetween(patientId, start, end);
     }
 
-    @PostMapping("/{id}/heart/publish")
-    public Mono<HeartRateResponse> publishHeartRate(
+    @PostMapping("/{id}/saturation/publish")
+    public Mono<OxygenSaturationResponse> publishOxygenSaturation(
         @PathVariable("id") int patientId,
-        @RequestBody HeartRate heartRate
+        @RequestBody OxygenSaturation oxygenSaturation
     ) {
-        return ingestionService.publishHeartRate(patientId, heartRate);
+        return ingestionService.publishOxygenSaturation(patientId, oxygenSaturation);
     }
 
     @GetMapping(value = "/{id}/saturation/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -89,14 +97,6 @@ public class IngestionRestAPIController {
         @RequestParam LocalDateTime end
     ) {
         return ingestionService.subscribeOxygenSaturationBetween(patientId, start, end);
-    }
-
-    @PostMapping("/{id}/saturation/publish")
-    public Mono<OxygenSaturationResponse> publishOxygenSaturation(
-        @PathVariable("id") int patientId,
-        @RequestBody OxygenSaturation oxygenSaturation
-    ) {
-        return ingestionService.publishOxygenSaturation(patientId, oxygenSaturation);
     }
 
 }
