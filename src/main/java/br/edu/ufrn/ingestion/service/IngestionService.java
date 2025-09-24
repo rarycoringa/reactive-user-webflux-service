@@ -13,9 +13,6 @@ import br.edu.ufrn.ingestion.model.OxygenSaturationModel;
 import br.edu.ufrn.ingestion.record.BloodPressure;
 import br.edu.ufrn.ingestion.record.HeartRate;
 import br.edu.ufrn.ingestion.record.OxygenSaturation;
-import br.edu.ufrn.ingestion.record.request.BloodPressureRequest;
-import br.edu.ufrn.ingestion.record.request.HeartRateRequest;
-import br.edu.ufrn.ingestion.record.request.OxygenSaturationRequest;
 import br.edu.ufrn.ingestion.record.response.BloodPressureResponse;
 import br.edu.ufrn.ingestion.record.response.HeartRateResponse;
 import br.edu.ufrn.ingestion.record.response.OxygenSaturationResponse;
@@ -24,9 +21,34 @@ import br.edu.ufrn.ingestion.repository.HeartRateRepository;
 import br.edu.ufrn.ingestion.repository.OxygenSaturationRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 
 @Service
 public class IngestionService {
+
+    private final Sinks.Many<BloodPressureResponse> bloodPressureSinkMany = Sinks
+        .many()
+        .replay()
+        .latest();
+
+    private final Flux<BloodPressureResponse> bloodPressureFlux = bloodPressureSinkMany
+        .asFlux();
+    
+    private final Sinks.Many<HeartRateResponse> heartRateSinkMany = Sinks
+        .many()
+        .replay()
+        .latest();
+
+    private final Flux<HeartRateResponse> heartRateFlux = heartRateSinkMany
+        .asFlux();
+    
+    private final Sinks.Many<OxygenSaturationResponse> oxygenSaturationSinkMany = Sinks
+        .many()
+        .replay()
+        .latest();
+
+    private final Flux<OxygenSaturationResponse> oxygenSaturationFlux = oxygenSaturationSinkMany
+        .asFlux();
 
     @Autowired
     private BloodPressureRepository bloodPressureRepository;
@@ -37,7 +59,16 @@ public class IngestionService {
     @Autowired
     private OxygenSaturationRepository oxygenSaturationRepository;
 
-    public Flux<BloodPressureResponse> retrieveBloodPressure(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<BloodPressureResponse> subscribeBloodPressure(int patientId) {
+        return bloodPressureFlux
+            .filter(response -> response.patientId() == patientId);
+    }
+
+    public Flux<BloodPressureResponse> subscribeBloodPressureBetween(
+        int patientId,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
@@ -55,12 +86,15 @@ public class IngestionService {
             );
     }
 
-    public Mono<BloodPressureResponse> createBloodPressure(BloodPressureRequest request) {
+    public Mono<BloodPressureResponse> publishBloodPressure(
+        int patientId,
+        BloodPressure bloodPressure
+    ) {
         BloodPressureModel bloodPressureModel = new BloodPressureModel(
-            request.patientId(),
+            patientId,
             Instant.now(),
-            request.bloodPressure().systolicValue(),
-            request.bloodPressure().diastolicValue()
+            bloodPressure.systolicValue(),
+            bloodPressure.diastolicValue()
         );
 
         return bloodPressureRepository
@@ -74,10 +108,20 @@ public class IngestionService {
                         model.getDiastolicValue()
                     )
                 )
-            );
+            )
+            .doOnNext(bloodPressureSinkMany::tryEmitNext);
     }
 
-    public Flux<HeartRateResponse> retrieveHeartRate(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<HeartRateResponse> subscribeHeartRate(int patientId) {
+        return heartRateFlux
+            .filter(response -> response.patientId() == patientId);
+    }
+
+    public Flux<HeartRateResponse> subscribeHeartRateBetween(
+        int patientId,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
@@ -92,11 +136,14 @@ public class IngestionService {
             );
     }
 
-    public Mono<HeartRateResponse> createHeartRate(HeartRateRequest request) {
+    public Mono<HeartRateResponse> publishHeartRate(
+        int patientId,
+        HeartRate heartRate
+    ) {
         HeartRateModel heartRateModel = new HeartRateModel(
-            request.patientId(),
+            patientId,
             Instant.now(),
-            request.heartRate().value()
+            heartRate.value()
         );
 
         return heartRateRepository
@@ -107,10 +154,20 @@ public class IngestionService {
                     model.getRegisteredAt(),
                     new HeartRate(model.getValue())
                 )
-            );
+            )
+            .doOnNext(heartRateSinkMany::tryEmitNext);
     }
 
-    public Flux<OxygenSaturationResponse> retrieveOxygenSaturation(int patientId, LocalDateTime start, LocalDateTime end) {
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(int patientId) {
+        return oxygenSaturationFlux
+            .filter(response -> response.patientId() == patientId);
+    }
+
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturationBetween(
+        int patientId,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
         Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
         Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
         
@@ -125,11 +182,14 @@ public class IngestionService {
             );
     }
 
-    public Mono<OxygenSaturationResponse> createOxygenSaturation(OxygenSaturationRequest request) {
+    public Mono<OxygenSaturationResponse> publishOxygenSaturation(
+        int patientId,
+        OxygenSaturation oxygenSaturation
+    ) {
         OxygenSaturationModel oxygenSaturationModel = new OxygenSaturationModel(
-            request.patientId(),
+            patientId,
             Instant.now(),
-            request.oxygenSaturation().value()
+            oxygenSaturation.value()
         );
 
         return oxygenSaturationRepository
@@ -140,7 +200,8 @@ public class IngestionService {
                     model.getRegisteredAt(),
                     new OxygenSaturation(model.getValue())
                 )
-            );
+            )
+            .doOnNext(oxygenSaturationSinkMany::tryEmitNext);
     }
 
 }
