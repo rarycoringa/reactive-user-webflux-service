@@ -1,8 +1,7 @@
 package br.edu.ufrn.ingestion.service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +62,13 @@ public class IngestionService {
         int patientId,
         BloodPressure bloodPressure
     ) {
+        LocalDateTime timestamp = LocalDateTime
+            .now()
+            .truncatedTo(ChronoUnit.SECONDS);
+
         BloodPressureModel bloodPressureModel = new BloodPressureModel(
             patientId,
-            Instant.now(),
+            timestamp,
             bloodPressure.systolicValue(),
             bloodPressure.diastolicValue()
         );
@@ -75,7 +78,7 @@ public class IngestionService {
             .map(
                 model -> new BloodPressureResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new BloodPressure(
                         model.getSystolicValue(),
                         model.getDiastolicValue()
@@ -95,15 +98,12 @@ public class IngestionService {
         LocalDateTime start,
         LocalDateTime end
     ) {
-        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
-        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
-        
         return bloodPressureRepository
-            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .findByPatientIdAndTimestampBetween(patientId, start, end)
             .map(
                 model -> new BloodPressureResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new BloodPressure(
                         model.getSystolicValue(),
                         model.getDiastolicValue()
@@ -116,9 +116,13 @@ public class IngestionService {
         int patientId,
         HeartRate heartRate
     ) {
+        LocalDateTime timestamp = LocalDateTime
+            .now()
+            .truncatedTo(ChronoUnit.SECONDS);
+
         HeartRateModel heartRateModel = new HeartRateModel(
             patientId,
-            Instant.now(),
+            timestamp,
             heartRate.value()
         );
 
@@ -127,7 +131,7 @@ public class IngestionService {
             .map(
                 model -> new HeartRateResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new HeartRate(model.getValue())
                 )
             )
@@ -143,16 +147,13 @@ public class IngestionService {
         int patientId,
         LocalDateTime start,
         LocalDateTime end
-    ) {
-        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
-        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
-        
+    ) { 
         return heartRateRepository
-            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .findByPatientIdAndTimestampBetween(patientId, start, end)
             .map(
                 model -> new HeartRateResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new HeartRate(model.getValue())
                 )
             );
@@ -162,9 +163,13 @@ public class IngestionService {
         int patientId,
         OxygenSaturation oxygenSaturation
     ) {
+        LocalDateTime timestamp = LocalDateTime
+            .now()
+            .truncatedTo(ChronoUnit.SECONDS);
+
         OxygenSaturationModel oxygenSaturationModel = new OxygenSaturationModel(
             patientId,
-            Instant.now(),
+            timestamp,
             oxygenSaturation.value()
         );
 
@@ -173,7 +178,7 @@ public class IngestionService {
             .map(
                 model -> new OxygenSaturationResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new OxygenSaturation(model.getValue())
                 )
             )
@@ -190,15 +195,12 @@ public class IngestionService {
         LocalDateTime start,
         LocalDateTime end
     ) {
-        Instant startAsInstant = start.atZone(ZoneOffset.UTC).toInstant();
-        Instant endAsInstant = end.atZone(ZoneOffset.UTC).toInstant();
-        
         return oxygenSaturationRepository
-            .findByPatientIdAndRegisteredAtBetween(patientId, startAsInstant, endAsInstant)
+            .findByPatientIdAndTimestampBetween(patientId, start, end)
             .map(
                 model -> new OxygenSaturationResponse(
                     model.getPatientId(),
-                    model.getRegisteredAt(),
+                    model.getTimestamp(),
                     new OxygenSaturation(model.getValue())
                 )
             );

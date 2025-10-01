@@ -1,6 +1,6 @@
 package br.edu.ufrn.ingestion.repository;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.stereotype.Repository;
@@ -11,10 +11,10 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface BloodPressureRepository extends ReactiveCassandraRepository<BloodPressureModel, BloodPressureModel> {
     
-    Flux<BloodPressureModel> findByPatientIdAndRegisteredAtBetween(
+    Flux<BloodPressureModel> findByPatientIdAndTimestampBetween(
         int patientId,
-        Instant start,
-        Instant end
+        LocalDateTime start,
+        LocalDateTime end
     );
 
 }
