@@ -1,6 +1,6 @@
 package br.edu.ufrn.ingestion.record;
 
-public record OxygenSaturation(int value) {
+public record OxygenSaturation(Integer value) {
     public String unit() {
         return "%";
     }

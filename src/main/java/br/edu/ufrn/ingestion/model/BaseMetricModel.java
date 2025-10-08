@@ -7,23 +7,23 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 
 public abstract class BaseMetricModel {
     @PrimaryKeyColumn(name = "patient_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private int patientId;
+    private Integer patientId;
 
     @PrimaryKeyColumn(name = "timestamp", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
     private LocalDateTime timestamp;
 
     public BaseMetricModel() {}
 
-    public BaseMetricModel(int patientId, LocalDateTime timestamp) {
+    public BaseMetricModel(Integer patientId, LocalDateTime timestamp) {
         this.patientId = patientId;
         this.timestamp = timestamp;
     }
 
-    public int getPatientId() {
+    public Integer getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(int patientId) {
+    public void setPatientId(Integer patientId) {
         this.patientId = patientId;
     }
 

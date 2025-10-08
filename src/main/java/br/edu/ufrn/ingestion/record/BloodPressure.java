@@ -3,8 +3,8 @@ package br.edu.ufrn.ingestion.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record BloodPressure(
-    @JsonProperty("systolic_value") int systolicValue,
-    @JsonProperty("diastolic_value") int diastolicValue
+    @JsonProperty("systolic_value") Integer systolicValue,
+    @JsonProperty("diastolic_value") Integer diastolicValue
 ) {
     public String unit() {
         return "mmHg";

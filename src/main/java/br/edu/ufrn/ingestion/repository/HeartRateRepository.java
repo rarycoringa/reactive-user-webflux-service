@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 public interface HeartRateRepository extends ReactiveCassandraRepository<HeartRateModel, HeartRateModel> {
     
     Flux<HeartRateModel> findByPatientIdAndTimestampBetween(
-        int patientId,
+        Integer patientId,
         LocalDateTime start,
         LocalDateTime end
     );

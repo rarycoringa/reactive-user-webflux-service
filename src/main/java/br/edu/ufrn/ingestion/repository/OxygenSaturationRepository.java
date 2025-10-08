@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 public interface OxygenSaturationRepository extends ReactiveCassandraRepository<OxygenSaturationModel, OxygenSaturationModel> {
     
     Flux<OxygenSaturationModel> findByPatientIdAndTimestampBetween(
-        int patientId,
+        Integer patientId,
         LocalDateTime start,
         LocalDateTime end
     );

@@ -29,7 +29,7 @@ public class IngestionRestAPIController {
 
     @PostMapping("/{id}/pressure/publish")
     public Mono<BloodPressureResponse> publishBloodPressure(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestBody BloodPressure bloodPressure
     ) {
         return ingestionService.publishBloodPressure(patientId, bloodPressure);
@@ -37,14 +37,14 @@ public class IngestionRestAPIController {
 
     @GetMapping(value = "/{id}/pressure/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<BloodPressureResponse> subscribeBloodPressure(
-        @PathVariable("id") int patientId
+        @PathVariable("id") Integer patientId
     ) {
         return ingestionService.subscribeBloodPressure(patientId);
     }
 
     @GetMapping(value = "/{id}/pressure/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<BloodPressureResponse> subscribeBloodPressurePast(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
@@ -53,7 +53,7 @@ public class IngestionRestAPIController {
 
     @PostMapping("/{id}/heart/publish")
     public Mono<HeartRateResponse> publishHeartRate(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestBody HeartRate heartRate
     ) {
         return ingestionService.publishHeartRate(patientId, heartRate);
@@ -61,14 +61,14 @@ public class IngestionRestAPIController {
 
     @GetMapping(value = "/{id}/heart/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<HeartRateResponse> subscribeHeartRate(
-        @PathVariable("id") int patientId
+        @PathVariable("id") Integer patientId
     ) {
         return ingestionService.subscribeHeartRate(patientId);
     }
 
     @GetMapping(value = "/{id}/heart/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<HeartRateResponse> subscribeHeartRatePast(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {
@@ -77,7 +77,7 @@ public class IngestionRestAPIController {
 
     @PostMapping("/{id}/saturation/publish")
     public Mono<OxygenSaturationResponse> publishOxygenSaturation(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestBody OxygenSaturation oxygenSaturation
     ) {
         return ingestionService.publishOxygenSaturation(patientId, oxygenSaturation);
@@ -85,14 +85,14 @@ public class IngestionRestAPIController {
 
     @GetMapping(value = "/{id}/saturation/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(
-        @PathVariable("id") int patientId
+        @PathVariable("id") Integer patientId
     ) {
         return ingestionService.subscribeOxygenSaturation(patientId);
     }
 
     @GetMapping(value = "/{id}/saturation/past", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<OxygenSaturationResponse> subscribeOxygenSaturationPast(
-        @PathVariable("id") int patientId,
+        @PathVariable("id") Integer patientId,
         @RequestParam LocalDateTime start,
         @RequestParam LocalDateTime end
     ) {

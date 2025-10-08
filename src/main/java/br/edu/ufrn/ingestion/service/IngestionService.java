@@ -59,7 +59,7 @@ public class IngestionService {
     private OxygenSaturationRepository oxygenSaturationRepository;
 
     public Mono<BloodPressureResponse> publishBloodPressure(
-        int patientId,
+        Integer patientId,
         BloodPressure bloodPressure
     ) {
         LocalDateTime timestamp = LocalDateTime
@@ -88,13 +88,13 @@ public class IngestionService {
             .doOnNext(bloodPressureSinkMany::tryEmitNext);
     }
 
-    public Flux<BloodPressureResponse> subscribeBloodPressure(int patientId) {
+    public Flux<BloodPressureResponse> subscribeBloodPressure(Integer patientId) {
         return bloodPressureFlux
             .filter(response -> response.patientId() == patientId);
     }
 
     public Flux<BloodPressureResponse> subscribeBloodPressurePast(
-        int patientId,
+        Integer patientId,
         LocalDateTime start,
         LocalDateTime end
     ) {
@@ -113,7 +113,7 @@ public class IngestionService {
     }
 
     public Mono<HeartRateResponse> publishHeartRate(
-        int patientId,
+        Integer patientId,
         HeartRate heartRate
     ) {
         LocalDateTime timestamp = LocalDateTime
@@ -138,13 +138,13 @@ public class IngestionService {
             .doOnNext(heartRateSinkMany::tryEmitNext);
     }
 
-    public Flux<HeartRateResponse> subscribeHeartRate(int patientId) {
+    public Flux<HeartRateResponse> subscribeHeartRate(Integer patientId) {
         return heartRateFlux
             .filter(response -> response.patientId() == patientId);
     }
 
     public Flux<HeartRateResponse> subscribeHeartRatePast(
-        int patientId,
+        Integer patientId,
         LocalDateTime start,
         LocalDateTime end
     ) { 
@@ -160,7 +160,7 @@ public class IngestionService {
     }
 
     public Mono<OxygenSaturationResponse> publishOxygenSaturation(
-        int patientId,
+        Integer patientId,
         OxygenSaturation oxygenSaturation
     ) {
         LocalDateTime timestamp = LocalDateTime
@@ -185,13 +185,13 @@ public class IngestionService {
             .doOnNext(oxygenSaturationSinkMany::tryEmitNext);
     }
 
-    public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(int patientId) {
+    public Flux<OxygenSaturationResponse> subscribeOxygenSaturation(Integer patientId) {
         return oxygenSaturationFlux
             .filter(response -> response.patientId() == patientId);
     }
 
     public Flux<OxygenSaturationResponse> subscribeOxygenSaturationPast(
-        int patientId,
+        Integer patientId,
         LocalDateTime start,
         LocalDateTime end
     ) {

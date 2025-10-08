@@ -1,6 +1,6 @@
 package br.edu.ufrn.ingestion.record;
 
-public record HeartRate(int value) {
+public record HeartRate(Integer value) {
     public String unit() {
         return "bpm";
     }

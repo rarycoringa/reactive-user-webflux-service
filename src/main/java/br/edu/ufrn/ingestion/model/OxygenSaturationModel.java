@@ -9,20 +9,20 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class OxygenSaturationModel extends BaseMetricModel {
 
     @Column("value")
-    private int value;
+    private Integer value;
 
     public OxygenSaturationModel() {}
 
-    public OxygenSaturationModel(int patientId, LocalDateTime timestamp, int value) {
+    public OxygenSaturationModel(Integer patientId, LocalDateTime timestamp, Integer value) {
         super(patientId, timestamp);
         this.value = value;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 

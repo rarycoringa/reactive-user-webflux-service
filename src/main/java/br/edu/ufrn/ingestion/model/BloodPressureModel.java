@@ -9,32 +9,32 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class BloodPressureModel extends BaseMetricModel {
 
     @Column("systolic_value")
-    private int systolicValue;
+    private Integer systolicValue;
 
     @Column("diastolic_value")
-    private int diastolicValue;
+    private Integer diastolicValue;
 
     public BloodPressureModel() {}
 
-    public BloodPressureModel(int patientId, LocalDateTime timestamp, int systolicValue, int diastolicValue) {
+    public BloodPressureModel(Integer patientId, LocalDateTime timestamp, Integer systolicValue, Integer diastolicValue) {
         super(patientId, timestamp);
         this.systolicValue = systolicValue;
         this.diastolicValue = diastolicValue;
     }
 
-    public int getSystolicValue() {
+    public Integer getSystolicValue() {
         return systolicValue;
     }
 
-    public void setSystolicValue(int systolicValue) {
+    public void setSystolicValue(Integer systolicValue) {
         this.systolicValue = systolicValue;
     }
 
-    public int getDiastolicValue() {
+    public Integer getDiastolicValue() {
         return diastolicValue;
     }
 
-    public void setDiastolicValue(int diastolicValue) {
+    public void setDiastolicValue(Integer diastolicValue) {
         this.diastolicValue = diastolicValue;
     }
 
