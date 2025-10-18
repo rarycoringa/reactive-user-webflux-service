@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table("heart_rate")
+@Table("heart_rates")
 public class HeartRateModel extends BaseMetricModel {
 
     @Column("value")

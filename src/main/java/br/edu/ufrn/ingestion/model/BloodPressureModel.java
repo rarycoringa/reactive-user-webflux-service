@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table("blood_pressure")
+@Table("blood_pressures")
 public class BloodPressureModel extends BaseMetricModel {
 
     @Column("systolic_value")
