@@ -11,7 +11,7 @@ public class WebConfig implements WebFluxConfigurer {
     @Override
     public void configurePathMatching(PathMatchConfigurer configurer) {
         configurer.addPathPrefix(
-            "/api",
+            "/restapi",
             c -> c.isAnnotationPresent(RestController.class)
         );
     }
