@@ -1,6 +1,6 @@
 spring:
     application:
-        name: ingestion
+        name: user
     cloud:
         config:
             discovery:

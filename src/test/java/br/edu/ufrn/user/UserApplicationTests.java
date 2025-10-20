@@ -1,10 +1,10 @@
-package br.edu.ufrn.ingestion;
+package br.edu.ufrn.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IngestionApplicationTests {
+class UserApplicationTests {
 
 	@Test
 	void contextLoads() {

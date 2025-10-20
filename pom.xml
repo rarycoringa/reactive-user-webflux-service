@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.ufrn</groupId>
-	<artifactId>ingestion</artifactId>
+	<artifactId>user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ingestion</name>
-	<description>Ingestion Service</description>
+	<name>user</name>
+	<description>User Webflux Service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -44,7 +44,7 @@
 		<!-- Storage dependencies -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-cassandra</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
 		<dependency>
 			<groupId>org.redisson</groupId>

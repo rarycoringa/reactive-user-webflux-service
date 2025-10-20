@@ -1,4 +1,4 @@
-package br.edu.ufrn.ingestion;
+package br.edu.ufrn.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 @SpringBootApplication
 @EnableWebFlux
-public class IngestionApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IngestionApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 
 }

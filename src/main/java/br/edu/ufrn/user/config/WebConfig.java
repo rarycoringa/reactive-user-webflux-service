@@ -1,4 +1,4 @@
-package br.edu.ufrn.ingestion.config;
+package br.edu.ufrn.user.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,0 +1,30 @@
+# Types
+
+type User {
+    id: String!
+    name: String!
+    age: Int!
+    createdAt: String!
+    updatedAt: String!
+}
+
+# Inputs
+
+input CreateUserInput {
+    name: String!
+    age: Int!
+}
+
+# Queries
+
+type Query {
+    getAll: [User!]!
+    getById(id: String!): User
+}
+
+# Mutations
+
+type Mutation {
+    save(createUserInput: CreateUserInput!): User
+    delete(id: String!): Boolean
+}
