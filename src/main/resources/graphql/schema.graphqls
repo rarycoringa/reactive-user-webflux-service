@@ -5,7 +5,6 @@ type User {
     name: String!
     age: Int!
     createdAt: String!
-    updatedAt: String!
 }
 
 # Inputs
@@ -18,13 +17,13 @@ input CreateUserInput {
 # Queries
 
 type Query {
-    getAll: [User!]!
+    getAll: [User]!
     getById(id: String!): User
 }
 
 # Mutations
 
 type Mutation {
-    save(createUserInput: CreateUserInput!): User
+    save(createUserInput: CreateUserInput!): User!
     delete(id: String!): Boolean
 }

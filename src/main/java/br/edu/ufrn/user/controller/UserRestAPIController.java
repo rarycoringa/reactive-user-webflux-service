@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufrn.user.record.CreateUserDTO;
@@ -16,7 +17,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("/users")
 public class UserRestAPIController {
+
     @Autowired
     private UserService userService;
 
@@ -39,4 +42,5 @@ public class UserRestAPIController {
     public Mono<Void> delete(@PathVariable String id) {
         return userService.delete(id);
     }
+
 }

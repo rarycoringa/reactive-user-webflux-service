@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Controller
 public class UserGraphQLController {
+
     @Autowired
     private UserService userService;
 
@@ -36,4 +37,5 @@ public class UserGraphQLController {
     public Mono<Void> delete(@Argument String id) {
         return userService.delete(id);
     }
+    
 }

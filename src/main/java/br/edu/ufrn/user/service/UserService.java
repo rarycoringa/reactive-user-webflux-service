@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -59,4 +60,5 @@ public class UserService {
     public Mono<Void> delete(String id) {
         return userRepository.deleteById(id);
     }
+    
 }
