@@ -22,7 +22,6 @@ public class UserService {
                     user.getId(),
                     user.getName(),
                     user.getAge(),
-                    user.getCreatedAt(),
                     user.getCreatedAt()
                 )
             );
@@ -35,14 +34,16 @@ public class UserService {
                     user.getId(),
                     user.getName(),
                     user.getAge(),
-                    user.getCreatedAt(),
                     user.getCreatedAt()
                 )
             );
     }
 
     public Mono<UserDTO> save(CreateUserDTO createUserDTO) {
-        User userModel = new User(createUserDTO.name(), createUserDTO.age());
+        User userModel = new User(
+            createUserDTO.name(),
+            createUserDTO.age()
+        );
 
         return userRepository.save(userModel)
             .map(
@@ -50,7 +51,6 @@ public class UserService {
                     user.getId(),
                     user.getName(),
                     user.getAge(),
-                    user.getCreatedAt(),
                     user.getCreatedAt()
                 )
             );

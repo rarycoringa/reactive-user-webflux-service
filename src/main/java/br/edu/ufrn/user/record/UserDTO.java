@@ -9,6 +9,5 @@ public record UserDTO(
     String id,
     String name,
     Integer age,
-    @JsonProperty("created_at") @JsonFormat(shape = JsonFormat.Shape.STRING) Instant createdAt,
-    @JsonProperty("updated_at") @JsonFormat(shape = JsonFormat.Shape.STRING) Instant updatedAt
+    @JsonProperty("created_at") @JsonFormat(shape = JsonFormat.Shape.STRING) Instant createdAt
 ) {}

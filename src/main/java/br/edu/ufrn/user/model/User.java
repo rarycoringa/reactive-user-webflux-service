@@ -14,14 +14,12 @@ public class User {
     private Integer age;
 
     private Instant createdAt;
-    private Instant updatedAt;
 
     public User(String name, Integer age) {
         this.name = name;
         this.age = age;
 
         this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
     }
 
     public String getId() {
@@ -47,12 +45,5 @@ public class User {
     public Instant getCreatedAt() {
         return createdAt;
     }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    
 }
