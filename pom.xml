@@ -47,9 +47,8 @@
             <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
 		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson-spring-boot-starter</artifactId>
-			<version>3.51.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
 		</dependency>
 
 		<!-- Cloud dependencies -->
@@ -103,6 +102,7 @@
 	</dependencies>
 
 	<dependencyManagement>
+		<!-- Spring Cloud POM -->
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
